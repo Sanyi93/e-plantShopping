@@ -5,7 +5,6 @@ import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
 
-  useEffect(() => {
 const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
@@ -13,7 +12,7 @@ const cart = useSelector(state => state.cart.items);
   const calculateTotalAmount = (item) => {
     let totalAmount = 0;
     cart.forEach((item) => {
-        totalCost += parseFloat(item.cost.substring(1)) * item.quantity;
+        totalAmount += parseFloat(item.cost.substring(1)) * item.quantity;
     });
     return totalAmount;
  
@@ -33,29 +32,26 @@ const cart = useSelector(state => state.cart.items);
   };
 
   const handleDecrement = (item) => {
-    dispatch(updateQuantity({name: item.name, quantity: {
-        if(item.quantity > 1){
-            item.quantity -1
-        } else {
-            dispatch(removeItem(item));
-        }
-    }}));
+    if(item.quantity === 1){
+        dispatch(removeItem({name: item.name}));
+    } else {
+        dispatch(updateQuantity({nae: item.name, quantity: item.quantity-1}));
+    }
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem(item));
+    dispatch(removeItem({name: item.name}));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
     const totalCost = 0;
-    items.forEach((item) => {
-        totalCost += parseFloat(item.cost.substring(1)) * item.quantity;
-    })
+    const quantity = item.quantity;
+    const cost = parseFloat(item.cost.substring(1)); //removing "$" sign and converting to number
+   
+    totalCost = quantity * cost;
+    return totalCost;
   };
-
-  }, [items]);
-  
 
   return (
     <div className="cart-container">

@@ -9,7 +9,7 @@ const cart = useSelector(state => state.cart.items);
 const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
-  const calculateTotalAmount = (item) => {
+  const calculateTotalAmount = () => {
     let totalAmount = 0;
     cart.forEach((item) => {
         totalAmount += parseFloat(item.cost.substring(1)) * item.quantity;
@@ -35,7 +35,7 @@ const dispatch = useDispatch();
     if(item.quantity > 1){
         dispatch(updateQuantity({ name: item.name, quantity: item.quantity-1}));
     } else {
-        handleRemove(item);
+        handleRemove({item: item.name});
     }
   };
 

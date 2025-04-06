@@ -237,8 +237,8 @@ function ProductList({ onHomeClick }) {
 
     const handleAddToCart = (plant) => {
         dispatch(addItem({...plant, quantity: 1}));
-        setAddedToCart((prevState) => ({
-            ...prevState,
+        setAddedToCart((addedToCart) => ({
+            ...addedToCart,
             [product.name]: true, //setting product name as a key and "true" as a value to mark it´s added to cart
         }));
     };

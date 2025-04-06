@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
+
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({}); //managing the plants added to cart
+    const dispatch = useDispatch();
 
     const plantsArray = [
         {
@@ -235,13 +238,38 @@ function ProductList({ onHomeClick }) {
         textDecoration: 'none',
     }
 
-    const handleAddToCart = (plant) => {
-        dispatch(addItem({...plant, quantity: 1}));
-        setAddedToCart((addedToCart) => ({
-            ...addedToCart,
-            [product.name]: true, //setting product name as a key and "true" as a value to mark it´s added to cart
+    const handleAddToCart = (product) => {
+        dispatch(addItem(product));
+        setAddedToCart((prevState) => ({
+            ...prevState,
+            [product.name]: true, //setting plant name as a key and "true" as a value to mark it´s added to cart
         }));
     };
+
+    const cartItems = useSelector((state) => state.cart.items);
+
+    //calculating total items quantity
+    const calculateTotalQuantity = () => {
+        return cartItems ? cartItems.seduce((total, item) => total + item.quantity, 0) : 0;
+    };
+
+    //managing state of the total items quantity
+    const [totalQuantity, setTotalQuantity] = useState(calculateTotalQuantity());
+
+    //updating the total items quantity state when the cartItems changes [cartItems]
+    useEffect(() => {
+        //updating totalquantity when it changes
+        setTotalQuantity(calculateTotalQuantity());
+        //update "addedToCart" state based on the cartItems changes
+        const updatedAddedToCart = {};
+        cartItems.foreach(item => {
+            updatedAddedToCart[item.name] = true;
+        });
+        setAddedToCart(updatedAddedToCart);
+    }, [cartItems]);
+
+
+
 
     const handleHomeClick = (e) => {
         e.preventDefault();

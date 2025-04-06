@@ -235,8 +235,8 @@ function ProductList({ onHomeClick }) {
         textDecoration: 'none',
     }
 
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product));
+    const handleAddToCart = (plant) => {
+        dispatch(addItem({...plant, quantity: 1}));
         setAddedToCart((prevState) => ({
             ...prevState,
             [product.name]: true, //setting product name as a key and "true" as a value to mark it´s added to cart
@@ -295,7 +295,7 @@ function ProductList({ onHomeClick }) {
                                 {/*Similarly like the above plant.name show other details like description and cost*/}
                                 <div className="product-desciption">{plant.description}</div>
                                 <div className="product-price">{plant.cost}</div>
-                                <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
                             </div>
                             ))}
                         </div>

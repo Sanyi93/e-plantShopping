@@ -45,7 +45,7 @@ const dispatch = useDispatch();
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    const totalCost = 0;
+    let totalCost = 0;
     const quantity = item.quantity;
     const cost = parseFloat(item.cost.substring(1)); //removing "$" sign and converting to number
    

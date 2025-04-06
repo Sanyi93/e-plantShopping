@@ -250,7 +250,7 @@ function ProductList({ onHomeClick }) {
 
     //calculating total items quantity
     const calculateTotalQuantity = () => {
-        return cartItems ? cartItems.seduce((total, item) => total + item.quantity, 0) : 0;
+        return cartItems ? cartItems.reduce((total, item) => total + item.quantity, 0) : 0;
     };
 
     //managing state of the total items quantity
